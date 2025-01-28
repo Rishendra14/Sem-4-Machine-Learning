@@ -1,0 +1,17 @@
+import pandas as pd
+import numpy as np
+file_path = "Lab Session Data.xlsx"
+sheet_name = "Purchase data"
+data = pd.read_excel(file_path, sheet_name=sheet_name)
+
+A = data.iloc[:, 1:4].apply(pd.to_numeric, errors='coerce').values
+
+C = data.iloc[:, 4].apply(pd.to_numeric, errors='coerce').values
+
+A = np.nan_to_num(A)
+C = np.nan_to_num(C)
+
+labels = np.where(C > 200, "RICH", "POOR")
+data["Category"] = labels
+
+print("Updated Data with Category:\n", data[["Customer", "Category"]])
