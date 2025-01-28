@@ -1,0 +1,40 @@
+import pandas as pd
+import numpy as np
+
+file_path = "Lab Session Data.xlsx"
+sheet_name = "Purchase data"
+data = pd.read_excel(file_path, sheet_name=sheet_name)
+
+A = data.iloc[:, 1:4].apply(pd.to_numeric, errors='coerce').values
+
+
+C = data.iloc[:, 4].apply(pd.to_numeric, errors='coerce').values
+
+A = np.nan_to_num(A)
+C = np.nan_to_num(C)
+
+
+print("Matrix A (Feature Matrix):\n", A)
+print("\nMatrix C (Payment Vector):\n", C)
+
+
+vector_space_dimensionality = A.shape[1]
+print(f"Dimensionality of the vector space: {vector_space_dimensionality}")
+
+
+num_vectors = A.shape[0]
+print(f"Number of vectors in the vector space: {num_vectors}")
+
+
+rank_of_A = np.linalg.matrix_rank(A)
+print(f"Rank of Matrix A: {rank_of_A}")
+
+
+A_pseudo_inverse = np.linalg.pinv(A)
+print("Pseudo-Inverse of A:\n", A_pseudo_inverse)
+
+
+X = A_pseudo_inverse @ C
+print("Cost of each product (X):")
+for i, cost in enumerate(X, start=1):
+    print(f"Product {i}: Rs. {cost:.2f}")
