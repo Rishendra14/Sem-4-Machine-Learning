@@ -1,0 +1,20 @@
+import pandas as pd
+import numpy as np
+file_path = "Lab Session Data.xlsx"
+sheet_name = "Purchase data"
+data = pd.read_excel(file_path, sheet_name=sheet_name)
+ 
+A = data.iloc[:, 1:4].apply(pd.to_numeric, errors='coerce').values
+
+C = data.iloc[:, 4].apply(pd.to_numeric, errors='coerce').values
+ 
+A = np.nan_to_num(A)
+C = np.nan_to_num(C)
+ 
+print("Matrix A (Feature Matrix):\n", A)
+print("\nMatrix C (Payment Vector):\n", C)
+
+X = A_pseudo_inverse @ C
+print("Model Vector X (Predicted Cost per Unit of Each Product):")
+for i, cost in enumerate(X, start=1):
+    print(f"Product {i}: Rs. {cost:.2f}")
