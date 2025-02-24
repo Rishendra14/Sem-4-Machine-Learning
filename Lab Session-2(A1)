@@ -4,7 +4,7 @@ import numpy as np
 file_path = "Lab Session Data.xlsx"
 sheet_name = "Purchase data"
 data = pd.read_excel(file_path, sheet_name=sheet_name)
-
+hello everyone
 A = data.iloc[:, 1:4].apply(pd.to_numeric, errors='coerce').values
 
 
