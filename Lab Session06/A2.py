@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-
+# List of file paths
 file_paths = ['255_s.xlsx', '259_s.xlsx', '261_s.xlsx', '285_s.xlsx', '287_s.xlsx',
               '219_student.xlsx', '220_student.xlsx', '221_student.xlsx', '222_student.xlsx', '223_student.xlsx']
 
@@ -19,15 +19,15 @@ for file_path in file_paths:
 # Concatenate all DataFrames into a single DataFrame
 combined_df = pd.concat(dfs, ignore_index=True)
 
-# A1: Calculate entropy
-def calculate_entropy(column):
-    # Calculate the probability of each class
-    probabilities = column.value_counts(normalize=True)
-    # Calculate entropy
-    entropy = -np.sum(probabilities * np.log2(probabilities))
-    return entropy
+# Function to calculate Gini index
+def gini_index(column):
+    values, counts = np.unique(column, return_counts=True)
+    probabilities = counts / counts.sum()
+    return 1 - np.sum(probabilities ** 2)
 
-# Example usage: Calculating entropy for the 'Number' column (or any other categorical target)
+# Specify the target column
 target_column = 'Number'
-entropy_value = calculate_entropy(combined_df[target_column])
-print(f"Entropy of '{target_column}':", entropy_value)
+
+# Calculate and print Gini index
+gini_value = gini_index(combined_df[target_column])
+print(f"Gini Index of '{target_column}': {gini_value}")
